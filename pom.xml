@@ -70,6 +70,7 @@
 
 	<modules>
         <module>app</module>
-		<module>web-api</module>
+		<module>webapp-api</module>
+		<module>photo-store</module>
 	</modules>
 </project>

@@ -30,10 +30,10 @@
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
 
-		<!-- Web API -->
+		<!-- Webapp API -->
 		<dependency>
 			<groupId>com.matanrubin</groupId>
-			<artifactId>photos-service-web-api</artifactId>
+			<artifactId>photos-service-webapp-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
