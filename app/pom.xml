@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>photos-service-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>photos-service-app</name>
@@ -36,6 +35,18 @@
 			<artifactId>photos-service-webapp-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>photo-store-service-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>fake-photo-store</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<!-- Testing -->
 		<dependency>

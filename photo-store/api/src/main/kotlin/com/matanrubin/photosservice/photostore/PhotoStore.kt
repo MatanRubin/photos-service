@@ -9,6 +9,10 @@ interface PhotoStore {
     fun deleteInstance(id: UUID)
 
     fun listInstances(): MutableCollection<String>
+
+    fun getName(): String
+
+    fun getSupportedPhotoStoreInformation(): SupportedPhotoStore
 }
 
 

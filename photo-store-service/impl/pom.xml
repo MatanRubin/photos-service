@@ -4,18 +4,39 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>photo-store-api</artifactId>
+    <artifactId>photo-store-service-impl</artifactId>
 
     <parent>
         <groupId>com.matanrubin</groupId>
-        <artifactId>photo-store-parent</artifactId>
+        <artifactId>photo-store-service-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
+        <!-- Exposing as a Service -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Implementing photo-store-service-api -->
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>photo-store-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Photo Store Service manages Photo Stores -->
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>photo-store-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 
@@ -44,4 +65,5 @@
             </plugin>
         </plugins>
     </build>
+    
 </project>

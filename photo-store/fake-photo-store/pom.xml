@@ -10,8 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>shpan-photo-store</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>fake-photo-store</artifactId>
 
     <dependencies>
         <!-- Implementing Photo Store API -->

@@ -9,13 +9,14 @@ import kotlin.test.assertEquals
  * @version Mar 16, 2018
  * @since Phase1
  */
-class ShpanPhotoStoreTest {
+class FakePhotoStoreTest {
 
-    var photoStore: ShpanPhotoStore = ShpanPhotoStore()
+    var photoStoreRegistry = PhotoStoreRegistry()
+    var photoStore: FakePhotoStore = FakePhotoStore(photoStoreRegistry)
 
     @Before
     fun setUp() {
-        photoStore = ShpanPhotoStore()
+        photoStore = FakePhotoStore(photoStoreRegistry)
     }
 
     @Test

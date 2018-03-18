@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>photos-service-webapp-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Photos Service WebApp API</name>
@@ -42,7 +41,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+
+		<!-- Managing Photo Stores -->
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>photo-store-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>com.matanrubin</groupId>
+			<artifactId>photo-store-service-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.matanrubin</groupId>
+            <artifactId>photo-store-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>photo-store-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Photo Store Parent</name>
@@ -18,6 +17,6 @@
 
 	<modules>
 		<module>api</module>
-		<module>shpan-photo-store</module>
+		<module>fake-photo-store</module>
 	</modules>
 </project>
