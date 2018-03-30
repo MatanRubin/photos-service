@@ -3,15 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>photos-service-webapp-api</artifactId>
+	<artifactId>photo-service-webapp-api</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Photos Service WebApp API</name>
-	<description>Photos Service WebApp API</description>
+	<name>Photo Service WebApp API</name>
+	<description>Photo Service WebApp API</description>
 
-	<parent>
+    <properties>
+        <kotlin.version>1.2.31</kotlin.version>
+    </properties>
+
+    <parent>
 		<groupId>com.matanrubin</groupId>
-		<artifactId>photos-service-parent</artifactId>
+		<artifactId>photo-service-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -30,10 +34,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib-jdk8</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
 		<dependency>
@@ -45,28 +45,45 @@
 		<!-- Managing Photo Stores -->
         <dependency>
             <groupId>com.matanrubin</groupId>
-            <artifactId>photo-store-service-api</artifactId>
+            <artifactId>storage-backend-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>com.matanrubin</groupId>
-			<artifactId>photo-store-service-impl</artifactId>
+			<artifactId>storage-backend-service-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.matanrubin</groupId>
-            <artifactId>photo-store-api</artifactId>
+            <artifactId>storage-backend-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
-		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+		<sourceDirectory>src/main/kotlin</sourceDirectory>
 		<!--<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>-->
 		<plugins>
 			<plugin>
 				<artifactId>kotlin-maven-plugin</artifactId>
-				<groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <groupId>org.jetbrains.kotlin</groupId>
 				<configuration>
 					<args>
 						<arg>-Xjsr305=strict</arg>
@@ -74,7 +91,8 @@
 					<compilerPlugins>
 						<plugin>spring</plugin>
 					</compilerPlugins>
-				</configuration>
+                    <jvmTarget>1.8</jvmTarget>
+                </configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
