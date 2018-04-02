@@ -1,10 +1,12 @@
 
 import com.matanrubin.photoservice.storage.StorageBackendServiceImpl
+import com.matanrubin.photoservice.storage.SupportedStorageBackendRegistry
 import org.junit.Test
 
-class StorageBackendServiceImplTest {
+class StorageBackendApiServiceImplTest {
 
-    var storageBackendService = StorageBackendServiceImpl()
+    val supportedStorageBackendRegistry = SupportedStorageBackendRegistry()
+    var storageBackendService = StorageBackendServiceImpl(supportedStorageBackendRegistry)
 
     @Test
     fun listSupportedStorageBackends() {

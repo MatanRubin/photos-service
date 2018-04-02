@@ -9,14 +9,14 @@ import kotlin.test.assertEquals
  * @version Mar 16, 2018
  * @since Phase1
  */
-class FakeStorageBackendTest {
+class FakeStorageBackendApiTest {
 
-    var storageBackendRegistry = StorageBackendRegistry()
-    var storageBackend: FakeStorageBackend = FakeStorageBackend(storageBackendRegistry)
+    var storageBackendRegistry = SupportedStorageBackendRegistry()
+    var storageBackend: FakeStorageBackendApi = FakeStorageBackendApi(storageBackendRegistry)
 
     @Before
     fun setUp() {
-        storageBackend = FakeStorageBackend(storageBackendRegistry)
+        storageBackend = FakeStorageBackendApi(storageBackendRegistry)
     }
 
     @Test

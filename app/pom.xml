@@ -21,6 +21,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
 		<!-- Webapp API -->
 		<dependency>
 			<groupId>com.matanrubin</groupId>
@@ -46,10 +52,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator-docs</artifactId>
         </dependency>
 
 		<!-- Testing -->

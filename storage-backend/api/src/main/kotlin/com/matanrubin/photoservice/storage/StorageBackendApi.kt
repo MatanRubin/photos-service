@@ -2,7 +2,7 @@ package com.matanrubin.photoservice.storage
 
 import java.util.*
 
-interface StorageBackend {
+interface StorageBackendApi {
 
     fun store(data: String): UUID
 
@@ -14,7 +14,9 @@ interface StorageBackend {
 
     fun getStorageBackendName(): String
 
-    fun getSupportedStorageBackendInfo(): SupportedStorageBackendInfo
+    fun getSupportedStorageBackendInfo(): SupportedStorageBackend
+
+    fun validateParameters(storageBackendMetaData: Map<String, String>)
 }
 
 
