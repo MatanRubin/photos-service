@@ -2,14 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Photo Service</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+        var supportedStorageBackends;
+
+        function onLoad() {
+            showSupportedStorageBackends();
+            showAddedStorageBackends();
+        }
+
+        function showSupportedStorageBackends() {
+            fetchJson("/supported-storage-backends", function (supportedBackends) {
+                table = document.getElementById("tableSupportedStorageBackends");
+                console.log("tableSupportedStorageBackends=" + table);
+                tbody = table.getElementsByTagName('tbody')[0];
+                supportedBackends.forEach(function (supportedBackend) {
+                        var row = tbody.insertRow();
+                        row.insertCell(0).innerHTML = supportedBackend.name;
+                        var parametersCell = row.insertCell(1)
+                        showSupportedStorageBackendParameters(supportedBackend.uri, supportedBackend.parameters, parametersCell);
+                        row.insertCell(2).innerHTML = '<td><button onclick="onAddStorageBackend(\'' + supportedBackend.uri + '\')">Add</button></td>';
+                    }
+                )
+                supportedStorageBackends = supportedBackends;
+            })
+        }
+
+        function showSupportedStorageBackendParameters(backendUri, parameters, cell) {
+            var parameterTable = '<table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody>';
+            parameters.forEach(function (parameter) {
+                parameterTable += '<tr>' +
+                    '<td>' + parameter.displayName + '</td>';
+                switch (parameter.type) {
+                    case 'STRING':
+                        parameterTable += '<td><input id="' + backendUri + '-' + parameter.uri + '-param"></td>';
+                        break;
+                    case 'PASSWORD':
+                        parameterTable += '<td><input type="password" id="' + backendUri + '-' + parameter.uri + '-param"></td>';
+                        break;
+                }
+                parameterTable += '</tr>';
+            });
+            parameterTable += '</tbody></table>';
+            cell.innerHTML = parameterTable;
+        }
+
+        function onAddStorageBackend(backendUri) {
+            var backend = supportedStorageBackends.filter(x => x.uri === backendUri)[0];
+            var parameters = {};
+            backend.parameters.forEach(function (parameter) {
+                    parameters[parameter.uri] = document.getElementById(backendUri + '-' + parameter.uri + '-param').value;
+            });
+
+            var commandArgs ={
+                name: backend.name,
+                parameters: parameters
+            };
+            postJson("/commands/add-storage-backend", commandArgs, function (response) {
+                alert("Storage backend '" + backend.name + "' added successfully");
+                showAddedStorageBackends();
+            });
+        }
+
+        function onRemoveStorageBackend(backendName) {
+            var backend = supportedStorageBackends.filter(x => x.name === backendName)[0];
+            console.log(backend)
+            postJson("/commands/remove-storage-backend", {name: backend.name}, function (response) {
+                alert("Storage backend '" + backend.name + "' removed successfully");
+                showAddedStorageBackends();
+            })
+        }
+
+        function showAddedStorageBackends() {
+            fetchJson("/storage-backends", function (backends) {
+                table = document.getElementById("tableAddedStorageBackends");
+                table.innerHTML = '<thead><tr><th>Name</th><th>Metrics</th><th>Remove</th></tr></thead><tbody/>';
+                tbody = table.getElementsByTagName('tbody')[0];
+                backends.forEach(function (backend) {
+                        var row = tbody.insertRow();
+                        row.insertCell(0).innerHTML = backend.name;
+                        var metricsCell = row.insertCell(1);
+                        // TODO support metrics
+                        row.insertCell(2).innerHTML = '<td><button onclick="onRemoveStorageBackend(\'' + backend.name + '\')">Remove</button></td>';
+                    }
+                );
+            })
+        }
+        // . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . .
+        // Helper function
+        function fetchJson(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            console.log("GET url=" + url);
+            xhr.responseType = 'json';
+            xhr.onload = function() {
+                var status = xhr.status;
+                if (status === 200) {
+                    callback(xhr.response);
+                } else {
+                    alert("boo " + status);
+                }
+            };
+            xhr.send();
+        }
+
+        function postJson(url, entity, successHandler) {
+            var xhr = new XMLHttpRequest();
+            var url = url;
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            if (url.startsWith('/api/utility')) {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(document.getElementById('txtUsername').value + ':' + document.getElementById('txtPassword').value));
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        var json = xhr.responseText !== '' ? JSON.parse(xhr.responseText) : null;
+                        successHandler(json);
+                        console.log(json);
+                    }else {
+                        alert('error: ' + xhr.responseText);
+                    }
+                }
+            };
+            var data = JSON.stringify(entity);
+            xhr.send(data);
+            console.log(JSON.stringify(entity, null, 2));
+        }
+
+        function parseQueryString() {
+            var queryString = window.location.search;
+            if (queryString !== '') {
+                queryString = queryString.substring(1);
+            }
+
+            var params = {}, queries, temp, i, l;
+            // Split into key/value pairs
+            queries = queryString.split("&");
+            // Convert the array of strings into an object
+            for ( i = 0, l = queries.length; i < l; i++ ) {
+                temp = queries[i].split('=');
+                params[temp[0]] = temp[1];
+            }
+            return params;
+        }
+    </script>
 </head>
-<body>
+<body onload="onLoad()">
 <h1>Photo Service</h1>
 <p>Welcome to the Photo Service</p>
 
 <h2>Supported Storage Backends</h2>
+<table id="tableSupportedStorageBackends" class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Parameters</th>
+        <th>Add</th>
+    </tr>
+    </thead>
+    <tbody/>
+</table>
+
 <h2>Configured Storage Backends</h2>
+<table id="tableAddedStorageBackends" class="table"></table>
 <h2>Photo Library</h2>
+
+<!-- Bootstrap JS scripts should come right at the end of <body> -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

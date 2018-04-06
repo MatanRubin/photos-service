@@ -5,10 +5,10 @@ import java.util.*
 import javax.annotation.PostConstruct
 
 @Component
-class FakeStorageBackendApi(val supportedStorageBackendRegistry: SupportedStorageBackendRegistry) : StorageBackendApi {
+class DropboxStorageBackendApi(val supportedStorageBackendRegistry: SupportedStorageBackendRegistry) : StorageBackendApi {
 
-    private val name = "Fake Storage Backend"
-    private val uri = "fakeStorageBackend"
+    private val name = "Dropbox Storage Backend"
+    private val uri = "dropboxStorageBackend"
     private var instances: MutableMap<UUID, String> = mutableMapOf()
     private val supportedStorageBackendInfo = SupportedStorageBackend(
             name,
