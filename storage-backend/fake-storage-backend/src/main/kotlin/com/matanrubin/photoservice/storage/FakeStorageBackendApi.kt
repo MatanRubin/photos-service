@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct
 @Component
 class FakeStorageBackendApi(val supportedStorageBackendRegistry: SupportedStorageBackendRegistry) : StorageBackendApi {
 
-    private val name = "Fake Storage Backend"
+    private val name = "FakeDrive"
     private val uri = "fakeStorageBackend"
     private var instances: MutableMap<UUID, String> = mutableMapOf()
     private val supportedStorageBackendInfo = SupportedStorageBackend(
@@ -22,7 +22,8 @@ class FakeStorageBackendApi(val supportedStorageBackendRegistry: SupportedStorag
                             "password",
                             SupportedStorageBackend.Parameter.Type.PASSWORD,
                             "Password")
-            )
+            ),
+            ClassLoader.getSystemResource("FakeDrive.png").readBytes()
     )
 
     @PostConstruct

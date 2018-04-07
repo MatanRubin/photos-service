@@ -3,15 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>photo-service-webapp-api</artifactId>
+	<artifactId>library</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Photo Service WebApp API</name>
-	<description>Photo Service WebApp API</description>
-
-    <properties>
-        <kotlin.version>1.2.31</kotlin.version>
-    </properties>
+	<name>Photo Service Library</name>
+	<description>Photo Service Library</description>
 
     <parent>
 		<groupId>com.matanrubin</groupId>
@@ -22,49 +18,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-kotlin</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-reflect</artifactId>
-		</dependency>
+
+		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- Managing Photo Stores -->
-        <dependency>
-            <groupId>com.matanrubin</groupId>
-            <artifactId>storage-backend-service-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-		<dependency>
-			<groupId>com.matanrubin</groupId>
-			<artifactId>storage-backend-service-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.matanrubin</groupId>
-            <artifactId>storage-backend-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-		<!-- Handling photos -->
-        <dependency>
-            <groupId>com.matanrubin</groupId>
-            <artifactId>library</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 	</dependencies>
 
 	<build>

@@ -7,9 +7,10 @@ import javax.annotation.PostConstruct
 @Component
 class DropboxStorageBackendApi(val supportedStorageBackendRegistry: SupportedStorageBackendRegistry) : StorageBackendApi {
 
-    private val name = "Dropbox Storage Backend"
+    private val name = "Dropbox"
     private val uri = "dropboxStorageBackend"
     private var instances: MutableMap<UUID, String> = mutableMapOf()
+
     private val supportedStorageBackendInfo = SupportedStorageBackend(
             name,
             uri,
@@ -22,7 +23,8 @@ class DropboxStorageBackendApi(val supportedStorageBackendRegistry: SupportedSto
                             "password",
                             SupportedStorageBackend.Parameter.Type.PASSWORD,
                             "Password")
-            )
+            ),
+            ClassLoader.getSystemResource("Dropbox.png").readBytes()
     )
 
     @PostConstruct

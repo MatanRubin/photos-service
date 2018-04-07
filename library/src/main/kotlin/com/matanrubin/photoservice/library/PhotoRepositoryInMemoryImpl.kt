@@ -4,7 +4,10 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-class PhotoRepositoryInMemoryImpl : PhotoRepository {
+internal class PhotoRepositoryInMemoryImpl : PhotoRepository {
+    override fun getPhotoByName(photoName: String): DbPhoto? {
+        return photos.values.firstOrNull { x -> x.name == photoName }
+    }
 
     var photos: MutableMap<UUID, DbPhoto> = mutableMapOf()
 

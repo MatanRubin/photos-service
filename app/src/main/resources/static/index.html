@@ -5,29 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Photo Service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script>
+    <script language="JavaScript">
         var supportedStorageBackends;
 
         function onLoad() {
             showSupportedStorageBackends();
             showAddedStorageBackends();
+            showPhotos();
         }
 
         function showSupportedStorageBackends() {
             fetchJson("/supported-storage-backends", function (supportedBackends) {
                 table = document.getElementById("tableSupportedStorageBackends");
-                console.log("tableSupportedStorageBackends=" + table);
                 tbody = table.getElementsByTagName('tbody')[0];
                 supportedBackends.forEach(function (supportedBackend) {
                         var row = tbody.insertRow();
-                        row.insertCell(0).innerHTML = supportedBackend.name;
-                        var parametersCell = row.insertCell(1)
+                        row.insertCell(0).innerHTML = '<img src="data:image/png;base64,' + supportedBackend.icon + '" width="50" height="auto">';
+                        row.insertCell(1).innerHTML = supportedBackend.name;
+                        var parametersCell = row.insertCell(2)
                         showSupportedStorageBackendParameters(supportedBackend.uri, supportedBackend.parameters, parametersCell);
-                        row.insertCell(2).innerHTML = '<td><button onclick="onAddStorageBackend(\'' + supportedBackend.uri + '\')">Add</button></td>';
+                        row.insertCell(3).innerHTML = '<td><button onclick="onAddStorageBackend(\'' + supportedBackend.uri + '\')">Add</button></td>';
                     }
-                )
+                );
                 supportedStorageBackends = supportedBackends;
-            })
+            });
         }
 
         function showSupportedStorageBackendParameters(backendUri, parameters, cell) {
@@ -61,7 +62,6 @@
                 parameters: parameters
             };
             postJson("/commands/add-storage-backend", commandArgs, function (response) {
-                alert("Storage backend '" + backend.name + "' added successfully");
                 showAddedStorageBackends();
             });
         }
@@ -70,7 +70,6 @@
             var backend = supportedStorageBackends.filter(x => x.name === backendName)[0];
             console.log(backend)
             postJson("/commands/remove-storage-backend", {name: backend.name}, function (response) {
-                alert("Storage backend '" + backend.name + "' removed successfully");
                 showAddedStorageBackends();
             })
         }
@@ -83,13 +82,31 @@
                 backends.forEach(function (backend) {
                         var row = tbody.insertRow();
                         row.insertCell(0).innerHTML = backend.name;
-                        var metricsCell = row.insertCell(1);
+                        row.insertCell(1).innerHTML = Math.floor(Math.random() * 100) + "% Full";
                         // TODO support metrics
                         row.insertCell(2).innerHTML = '<td><button onclick="onRemoveStorageBackend(\'' + backend.name + '\')">Remove</button></td>';
                     }
                 );
-            })
+            });
         }
+
+        function showPhotos() {
+            var table = document.getElementById("tablePhotos");
+            var tbody = table.getElementsByTagName("tbody")[0];
+
+            fetchJson("/photos", function (photos) {
+                photos.forEach(function (photo) {
+                    var row = tbody.insertRow();
+                    row.insertCell(0).innerHTML = photo.name;
+                    row.insertCell(1).innerHTML = photo.width;
+                    row.insertCell(2).innerHTML = photo.height;
+                    row.insertCell(3).innerHTML = photo.size;
+                    row.insertCell(4).innerHTML = '<img src="' + photo.url + '" height="100" width="auto">'
+                })
+            })
+
+        }
+
         // . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . . . .  . . . . . . . . .
         // Helper function
         function fetchJson(url, callback) {
@@ -158,6 +175,7 @@
 <table id="tableSupportedStorageBackends" class="table">
     <thead>
     <tr>
+        <th>Icon</th>
         <th>Name</th>
         <th>Parameters</th>
         <th>Add</th>
@@ -169,6 +187,24 @@
 <h2>Configured Storage Backends</h2>
 <table id="tableAddedStorageBackends" class="table"></table>
 <h2>Photo Library</h2>
+<table id="tablePhotos" class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>Size</th>
+            <th>Photo</th>
+        </tr>
+    </thead>
+    <tbody/>
+</table>
+<form method="POST" enctype="multipart/form-data" action="/upload">
+    <table class="table">
+        <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+    </table>
+</form>
 
 <!-- Bootstrap JS scripts should come right at the end of <body> -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

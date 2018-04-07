@@ -6,6 +6,7 @@ interface PhotoRepository {
     fun save(dbPhoto: DbPhoto)
     fun delete(id: UUID)
     fun list(): List<DbPhoto>
+    fun getPhotoByName(photoName: String): DbPhoto?
 }
 
-data class DbPhoto(val id: UUID, val width: Long, val height: Long, val name: String, val data: ByteArray)
+data class DbPhoto(val id: UUID, val width: Int, val height: Int, val name: String, val data: ByteArray)

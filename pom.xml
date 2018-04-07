@@ -44,7 +44,7 @@
         <module>webapp-api</module>
         <module>storage-backend</module>
         <module>storage-backend-service</module>
-        <!--<module>library</module>-->
+        <module>library</module>
     </modules>
 
     <build>

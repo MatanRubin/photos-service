@@ -17,7 +17,7 @@ class StorageBackendsController(
     fun listSupportedStorageBackends(): List<UiSupportedStorageBackend> {
         return supportedStorageBackendRegistry
                 .listSupportedStorageBackends()
-                .map { x -> UiSupportedStorageBackend(x.name, x.uri, x.params.map(::convertParameter)) }
+                .map { x -> UiSupportedStorageBackend(x.name, x.uri, x.params.map(::convertParameter), x.icon) }
     }
 
     @GetMapping("/storage-backends")
@@ -38,7 +38,7 @@ class StorageBackendsController(
 
 data class UiAddStorageBackendRequest(val name: String, val parameters: Map<String, String>)
 data class UiRemoveStorageBackendRequest(val name: String)
-data class UiSupportedStorageBackend(val name: String, val uri: String, val parameters: List<Parameter>) {
+data class UiSupportedStorageBackend(val name: String, val uri: String, val parameters: List<Parameter>, val icon: ByteArray) {
     data class Parameter(val uri: String, val type: Type, val displayName: String) {
         enum class Type {
             STRING,
