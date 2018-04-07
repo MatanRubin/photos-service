@@ -4,19 +4,14 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-/**
- * @author Matan Rubin
- * @version Mar 16, 2018
- * @since Phase1
- */
-class FakeStorageBackendApiTest {
+class DropboxStorageBackendApiTest {
 
     var storageBackendRegistry = SupportedStorageBackendRegistry()
-    var storageBackend: FakeStorageBackendApi = FakeStorageBackendApi(storageBackendRegistry)
+    var storageBackend: DropboxStorageBackendApi = DropboxStorageBackendApi(storageBackendRegistry)
 
     @Before
     fun setUp() {
-        storageBackend = FakeStorageBackendApi(storageBackendRegistry)
+        storageBackend = DropboxStorageBackendApi(storageBackendRegistry)
     }
 
     @Test

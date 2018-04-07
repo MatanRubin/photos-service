@@ -4,11 +4,6 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-/**
- * @author Matan Rubin
- * @version Mar 16, 2018
- * @since Phase1
- */
 class FakeStorageBackendApiTest {
 
     var storageBackendRegistry = SupportedStorageBackendRegistry()
